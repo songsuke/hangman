@@ -1,0 +1,31 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+
+<div id="guess">
+  <%= @answer.join(' ')%>
+
+</div>
+<!--<input id="current_answer" type="hidden">-->
+<input id="answer" name="guess" maxlength="1">
+<button id="send_answer" onclick="sendAnswer()"> Send </button>
+
+
+<script type="text/javascript" charset="utf-8">
+  function sendAnswer() {
+    var answer = document.getElementById('answer').value;
+    $.ajax({
+      type: 'POST',
+      url: '/check_guess',
+      data: {guess: answer},
+      success: function(data) {
+//        debugger;
+        $('#guess')[0].innerHTML = data;
+//        console.log(data);
+      },
+      error: function(data) {
+
+      }
+    })
+  }
+
+
+</script>

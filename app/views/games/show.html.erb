@@ -1,0 +1,43 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+
+<div id="guess">
+  <%= @answer.join(' ')%>
+
+</div>
+<!--<input id="current_answer" type="hidden">-->
+<input id="game_id" type="hidden" value="<%= @game.id%>">
+<input id="answer" name="guess" maxlength="1">
+<button id="send_answer" onclick="sendAnswer()"> Send </button>
+
+<div id="you_win" style="display: none;">
+  YOU WIN !!!!!
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  function sendAnswer() {
+    var answer = document.getElementById('answer').value;
+    var game_id = $('#game_id').val();
+    $.ajax({
+      type: 'PUT',
+      url: '/games/' + game_id,
+      dataType: 'json',
+      data: {guess: answer},
+      success: function(data) {
+//        debugger;
+        $('#guess')[0].innerHTML = data['answer'];
+//        console.log(data['win']);
+        if (data['win'] === true) {
+          $('#you_win').show();
+
+        }
+//
+
+      },
+      error: function(data) {
+
+      }
+    })
+  }
+
+
+</script>
